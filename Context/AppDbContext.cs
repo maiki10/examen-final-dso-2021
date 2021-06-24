@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ApiVentas.Models;
 
-namespace ApiEstudiantes.Context
+namespace ApiVentas.Context
 {
 
     public class AppDbContext : DbContext
