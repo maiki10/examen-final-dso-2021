@@ -14,7 +14,6 @@ namespace ApiVentas.Controllers
     [ApiController]
     public class UsuarioController : ControllerBase
     {
-
         private readonly AppDbContext context;
         public UsuarioController(AppDbContext _context)
         {
@@ -24,30 +23,16 @@ namespace ApiVentas.Controllers
         public ActionResult GetAll()
         {
 
-            //try
-            //{
-            //    return Ok(context.usuario.Include(u => u.persona).ToList());
-
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    return BadRequest(ex.Message);
-            //}
             try
             {
-                return Ok(context.usuario.Include(u => u.tipoUsuario).Include(u => u.persona).ToList());
+                return Ok(context.usuario.ToList());
             }
-            catch
-            (Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-
         }
-
-
-        [HttpGet("{id}", Name = "GtById")]
+        [HttpGet("{id}", Name = "GetById")]
         public ActionResult GetById(int id)
         {
 
@@ -69,7 +54,7 @@ namespace ApiVentas.Controllers
             {
                 context.usuario.Add(usuario);
                 context.SaveChanges();
-                return CreatedAtRoute("GtById", new { usuario.id }, usuario);
+                return CreatedAtRoute("GetById", new { usuario.id }, usuario);
             }
             catch (Exception ex)
             {
@@ -86,7 +71,7 @@ namespace ApiVentas.Controllers
                 {
                     context.Entry(usuario).State = EntityState.Modified;
                     context.SaveChanges();
-                    return CreatedAtRoute("GtById", new { id = usuario.id }, usuario);
+                    return CreatedAtRoute("GetById", new { id = usuario.id }, usuario);
                 }
                 else
                 {
@@ -99,27 +84,6 @@ namespace ApiVentas.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
-        {
-            try
-            {
-                var usuario = context.usuario.FirstOrDefault(p => p.id == id);
-                if (usuario != null)
-                {
-                    context.usuario.Remove(usuario);
-                    context.SaveChanges();
-                    return Ok(id);
-                }
-                else
-                {
-                    return BadRequest();
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        
     }
 }
